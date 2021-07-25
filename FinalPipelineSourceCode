@@ -1,0 +1,44 @@
+pipeline {
+  agent none
+  stages {
+    stage('CodeCollection') {
+	agent { 
+                label 'slave1'
+            }
+      steps {
+        git(url: 'https://github.com/RubinMathew/simpleMavenJunit.git', branch: 'master', changelog: true, poll: true)
+      }
+    }
+
+    stage('Compile') {
+
+	agent { 
+                label 'slave1'
+            }
+
+
+      steps {
+      
+          sh '''mvn clean
+mvn compile
+'''
+    
+
+      }
+    }
+
+    stage('Test') {
+
+
+agent { 
+                label 'slave2'
+            }
+      steps {
+      
+          sh 'mvn test'
+       
+      }
+    }
+
+  }
+}
