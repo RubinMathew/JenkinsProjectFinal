@@ -20,7 +20,7 @@ mvn compile
 
     stage('Test') {
       steps {
-        node(label: 'slave2') {
+        node(label : 'slave2') {
           sh 'mvn test'
         }
 
